@@ -11,7 +11,7 @@ cl::CLayoutHolder& cl::getCLayoutHolder()
 void cl::CLayoutHolder::init(al::LayoutInitInfo const* lytInfo)
 {
     mTestLayout = new TestLayout("TestLayout", *lytInfo);
-    mTestLayout->tryStart();
+    mTestLayout->tryEnd();
 }
 
 void cl::CLayoutHolder::endAll()

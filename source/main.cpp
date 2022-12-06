@@ -57,8 +57,6 @@ void sceneInitHook(al::ActorInitInfo* info, StageScene* curScene, al::PlacementI
 
     PuppetDirector& dir = getPuppetDirector();
     dir.initScene(*info, curScene->mHolder.mData->mWorldList->checkIsMainStage(GameDataFunction::getCurrentStageName(curScene)), GameDataFunction::getCurrentWorldId(curScene));
-
-    // cl::getCLayoutHolder().init(lytInfo);
 }
 
 void initActorWithArchiveNameHook(al::LiveActor* actor, al::ActorInitInfo const& initInfo, sead::SafeStringBase<char> const& string, char const* anotherString)

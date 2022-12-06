@@ -84,5 +84,5 @@ void tryInitSocket()
 {
     __asm("STR X20, [X8,#0x18]");
 
-    gLogger = new Logger("192.168.0.58", 3080, "MainLogger");
+    gLogger = new Logger("0.0.0.0", 3080, "MainLogger");
 }
