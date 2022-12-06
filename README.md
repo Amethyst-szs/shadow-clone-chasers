@@ -2,6 +2,8 @@
 
 This mod was created by Amethyst-szs for Fir! This project aimed to recreate the shadow clones from Mario Galaxy 2 inside Mario Odyssey, having several shadow players chasing behind the player! The mod is highly customizable through the in-game settings menu.
 
+*ONLY SUPPORTS VERSION 1.0 OF SMO*
+
 ## General Starlight Information:
 
 ## Prerequisites
