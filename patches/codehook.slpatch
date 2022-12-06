@@ -1,0 +1,84 @@
+[version=100, target=main]
+50F928 BL hakoniwaSequenceHook
+4C8DD0 BL sceneInitHook // hook to the init of a stage to modify certain conditions (we also have access to SceneInitInfo)
+41b384 BL initActorWithArchiveNameHook // Scene init hook for actor creation
+4CC780 BL sceneKillHook
+
+// hooks to start logger
+5359D8: // GameSystem::init 
+    BL tryInitSocket
+B59E28: // sead::system::print
+    B seadPrintHook
+
+5359DC:
+    MOV X0, X19 // move GameSystem to arg register
+    BL setupDebugMenu
+50F258: // HakoniwaSequence::drawMain+84
+    MOV X0, X19 // HakoniwaSequence
+    MOV X1, SP // viewport
+    MOV X2, X20 // drawContext
+    BL drawMainHook
+
+50E89C BL threadInit
+50E89C BL constructHook // HakoniwaSequence::init+1F4
+
+1B3F0C: // disables call to open HTML viewer during first time odyssey flight
+    NOP
+
+1F2A2C: // patches checkpoint system to always allow warping
+    MOV W0, #1
+
+4B5E30: // patches actor factory ctor with custom matching factory
+    B ProjectActorFactory
+4BE628: // patches camera poser factory with custom matching factory
+    B ProjectCameraPoserFactory
+5097E4: // patches area factor with custom matching factory
+    bl ProjectAreaFactory 
+5059d8:
+    bl ProjectAreaFactory
+4c9050:
+    bl ProjectAreaFactory
+4a9848:
+    bl ProjectAreaFactory
+4a7cc4:
+    bl ProjectAreaFactory
+4a5878:
+    bl ProjectAreaFactory
+
+// Amiibo Button Disabling
+577078: // rs::isHoldAmiiboMode
+    MOV X0, #0
+    RET
+577018: // rs::isTriggerAmiiboMode
+    MOV X0, #0
+    RET
+
+// Snapshot Button Disabling
+//576FB8: // rs::isTriggerSnapShotMode
+//    MOV X0, #0
+//    RET
+
+// Save Data Edits
+5167D0: GameConfigData::write+D0
+    B saveWriteHook
+5168F8: GameConfigData::read+124
+    BL saveReadHook
+
+// Speedboot
+50ef28:
+    BL speedboot::hakoniwaSetNerveSetup
+50eb88:
+    ORR w2, wzr, #0x1f // nerve state count
+50eb64:
+    BL speedboot::prepareLayoutInitInfo
+
+// Pause Menu Changes
+
+// 4EAEC4 B overrideNerveHook // makes any button on pause menu run a specific nerve
+4EA104 MOV W2, #5 // update state count to account for new custom state
+4EA1F0 BL initNerveStateHook // inits options nerve state and server config state
+4EA174 MOV X0, X20 // moves StageSceneStatePauseMenu to first arg
+4EA17C NOP // prevents first new of StageSceneStateOption
+4EA1A8 BL initStateHook // inits StageSceneStateOption and StageSceneStateServerConfig
+4EA1C0 NOP // prevents mStateOption ptr from being overriden
+4EAFA4 B overrideHelpFadeNerve
