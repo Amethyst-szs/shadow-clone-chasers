@@ -28,6 +28,8 @@ In the makefile, you can set `IP`, `USER`, and `PASS` to their respective values
 
 ## Building
 
+Note: If your build is booting extremely slowly when run on console, change the IP address typed in logger.cpp to 0.0.0.0 to disable the logger connection
+
 Build has only been tested on WSL2 running Ubuntu 20.04.1.
 
 Just run:
